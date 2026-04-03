@@ -1,8 +1,3 @@
--- Gui to Lua
--- Version: 3.2
-
--- Instances:
-
 local ScreenGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
 local Frame_2 = Instance.new("Frame")
@@ -25,8 +20,7 @@ local UICorner_8 = Instance.new("UICorner")
 local TextButton_5 = Instance.new("TextButton")
 local UICorner_9 = Instance.new("UICorner")
 
---Properties:
-
+ScreenGui.Name = ""
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = false
@@ -34,8 +28,8 @@ ScreenGui.ResetOnSpawn = false
 Frame.Parent = ScreenGui
 Frame.BackgroundColor3 = Color3.fromRGB(28, 26, 28)
 Frame.BorderColor3 = Color3.fromRGB(0, 85, 0)
-Frame.Position = UDim2.new(0.064000003, 0, 0.189999998, 0)
-Frame.Size = UDim2.new(0.416000009, 0, 0.503000021, 0)
+Frame.Position = UDim2.new(0.0640000403, 0, 0.189999953, 0)
+Frame.Size = UDim2.new(0.311849028, 0, 0.354851931, 0)
 
 Frame_2.Parent = Frame
 Frame_2.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
@@ -53,7 +47,7 @@ TextButton.BorderSizePixel = 0
 TextButton.Position = UDim2.new(0.483621001, 0, 0.24035725, 0)
 TextButton.Size = UDim2.new(0.426999986, 0, 0.500999987, 0)
 TextButton.Font = Enum.Font.Unknown
-TextButton.Text = "AutoRun, Stamina OFF"
+TextButton.Text = "Run, Stamina Auto"
 TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextButton.TextScaled = true
 TextButton.TextSize = 14.000
@@ -77,7 +71,7 @@ TextButton_2.BorderSizePixel = 0
 TextButton_2.Position = UDim2.new(0.483621091, 0, 0.235497281, 0)
 TextButton_2.Size = UDim2.new(0.427253067, 0, 0.501070559, 0)
 TextButton_2.Font = Enum.Font.Unknown
-TextButton_2.Text = "Highlight OFF"
+TextButton_2.Text = "Highlight Auto"
 TextButton_2.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextButton_2.TextScaled = true
 TextButton_2.TextSize = 14.000
@@ -101,7 +95,7 @@ TextButton_3.BorderSizePixel = 0
 TextButton_3.Position = UDim2.new(0.483621001, 0, 0.245198175, 0)
 TextButton_3.Size = UDim2.new(0.426999986, 0, 0.500999987, 0)
 TextButton_3.Font = Enum.Font.Unknown
-TextButton_3.Text = "WALLS OFF"
+TextButton_3.Text = "WALLS Auto"
 TextButton_3.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextButton_3.TextScaled = true
 TextButton_3.TextSize = 14.000
@@ -156,24 +150,22 @@ TextButton_5.TextWrapped = true
 
 UICorner_9.Parent = TextButton_5
 
--- Scripts:
-
-local function CGDGIZL_fake_script() -- ScreenGui.LocalScript 
+local function AXZFBJ_fake_script()
 	local script = Instance.new('LocalScript', ScreenGui)
 
 	local frame = script.Parent.Frame
-	
+
 	local dragging = false
 	local dragInput
 	local startPos
 	local startFramePos
-	
+
 	frame.InputBegan:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 then
 			dragging = true
 			startPos = input.Position
 			startFramePos = frame.Position
-	
+
 			input.Changed:Connect(function()
 				if input.UserInputState == Enum.UserInputState.End then
 					dragging = false
@@ -181,17 +173,17 @@ local function CGDGIZL_fake_script() -- ScreenGui.LocalScript
 			end)
 		end
 	end)
-	
+
 	frame.InputChanged:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseMovement then
 			dragInput = input
 		end
 	end)
-	
+
 	game:GetService("UserInputService").InputChanged:Connect(function(input)
 		if input == dragInput and dragging then
 			local delta = input.Position - startPos
-	
+
 			frame.Position = UDim2.new(
 				startFramePos.X.Scale,
 				startFramePos.X.Offset + delta.X,
@@ -201,17 +193,15 @@ local function CGDGIZL_fake_script() -- ScreenGui.LocalScript
 		end
 	end)
 end
-coroutine.wrap(CGDGIZL_fake_script)()
-local function CCKKJL_fake_script() -- TextButton.LocalScript 
+coroutine.wrap(AXZFBJ_fake_script)()
+local function ZFDE_fake_script()
 	local script = Instance.new('LocalScript', TextButton)
 
-	local button = script.Parent
 	local player = game.Players.LocalPlayer
-	
 	local playersFolder = workspace:WaitForChild("PLAYERS")
-	
-	local running = false
-	
+
+	local WALK_SPEED = 24
+
 	local function getCharacter()
 		for _, folder in pairs(playersFolder:GetChildren()) do
 			local char = folder:FindFirstChild(player.Name)
@@ -221,46 +211,39 @@ local function CCKKJL_fake_script() -- TextButton.LocalScript
 		end
 		return nil
 	end
-	
-	button.MouseButton1Up:Connect(function()
-		running = not running
-	
-		if running then
-			button.Text = "AutoRun ON"
-	
-			task.spawn(function()
-				while running do
-					local character = getCharacter()
-	
-					if character then
-						character:SetAttribute("WalkSpeed", 24)
-					end
-	
-					task.wait(0.5)
-				end
-			end)
-	
-		else
-			button.Text = "AutoRun OFF"
+
+	local function applySpeed(character)
+		if character then
+			character:SetAttribute("WalkSpeed", WALK_SPEED)
+		end
+	end
+
+	task.spawn(function()
+		while true do
+			local char = getCharacter()
+			if char then
+				applySpeed(char)
+			end
+			task.wait(1)
 		end
 	end)
-end
-coroutine.wrap(CCKKJL_fake_script)()
-local function QKGNP_fake_script() -- nil.Script 
-	local script = Instance.new('Script', nil)
 
-	print("Hello world!")
-	
+	for _, folder in pairs(playersFolder:GetChildren()) do
+		folder.ChildAdded:Connect(function(child)
+			if child.Name == player.Name then
+				task.wait(0.1)
+				applySpeed(child)
+			end
+		end)
+	end
 end
-coroutine.wrap(QKGNP_fake_script)()
-local function IBOPZ_fake_script() -- TextButton_2.LocalScript 
+coroutine.wrap(ZFDE_fake_script)()
+local function QIBIW_fake_script()
 	local script = Instance.new('LocalScript', TextButton_2)
 
-	local button = script.Parent
-	
 	local playersFolder = workspace:WaitForChild("PLAYERS")
 	local generatorsFolder = workspace:WaitForChild("MAPS"):WaitForChild("GAME MAP"):WaitForChild("Generators")
-	
+
 	local folders = {
 		LOBBY = {
 			folder = playersFolder:WaitForChild("LOBBY"),
@@ -275,80 +258,55 @@ local function IBOPZ_fake_script() -- TextButton_2.LocalScript
 			color = Color3.fromRGB(0,255,0)
 		}
 	}
-	
-	local generatorColor = Color3.fromRGB(0, 170, 255)
-	
-	local enabled = false
-	
-	button.MouseButton1Up:Connect(function()
-	
-		if enabled then
-			button.Text = "Highlight ON"
-		else
-			button.Text = "Highlight OFF"
-		end
-		enabled = not enabled
-	
-		for _, data in pairs(folders) do
-			for _, model in pairs(data.folder:GetChildren()) do
-				if model:IsA("Model") then
-	
-					local old = model:FindFirstChildOfClass("Highlight")
-	
-					if enabled then
-						if not old then
-							local hl = Instance.new("Highlight")
-							hl.FillColor = data.color
-							hl.OutlineColor = Color3.fromRGB(255,255,255)
-							hl.Parent = model
-						end
-					else
-						if old then
-							old:Destroy()
-						end
-					end
-	
-				end
+
+	local generatorColor = Color3.fromRGB(0,170,255)
+
+	local function addHighlight(model, color)
+		if model:IsA("Model") then
+			if not model:FindFirstChildOfClass("Highlight") then
+				local hl = Instance.new("Highlight")
+				hl.FillColor = color
+				hl.OutlineColor = Color3.fromRGB(255,255,255)
+				hl.Parent = model
 			end
 		end
-	
-		for _, gen in pairs(generatorsFolder:GetChildren()) do
-			if gen:IsA("Model") then
-	
-				local old = gen:FindFirstChildOfClass("Highlight")
-	
-				if enabled then
-					if not old then
-						local hl = Instance.new("Highlight")
-						hl.FillColor = generatorColor
-						hl.OutlineColor = Color3.fromRGB(255,255,255)
-						hl.Parent = gen
-					end
-				else
-					if old then
-						old:Destroy()
-					end
-				end
-	
-			end
+	end
+
+	for _, data in pairs(folders) do
+		for _, model in pairs(data.folder:GetChildren()) do
+			addHighlight(model, data.color)
 		end
-	
+
+		data.folder.ChildAdded:Connect(function(model)
+			addHighlight(model, data.color)
+		end)
+	end
+
+	for _, gen in pairs(generatorsFolder:GetChildren()) do
+		addHighlight(gen, generatorColor)
+	end
+
+	generatorsFolder.ChildAdded:Connect(function(gen)
+		addHighlight(gen, generatorColor)
 	end)
 end
-coroutine.wrap(IBOPZ_fake_script)()
-local function AJHS_fake_script() -- TextButton_3.LocalScript 
+coroutine.wrap(QIBIW_fake_script)()
+local function SXFYA_fake_script()
 	local script = Instance.new('LocalScript', TextButton_3)
 
-	local button = script.Parent
-	
 	local wallsFolder = workspace:WaitForChild("MAPS")
 		:WaitForChild("GAME MAP")
 		:WaitForChild("WALLS")
-	
-	button.MouseButton1Up:Connect(function()
-		for _, obj in pairs(wallsFolder:GetChildren()) do
+
+	for _, obj in pairs(wallsFolder:GetChildren()) do
+		obj:Destroy()
+	end
+
+	wallsFolder.ChildAdded:Connect(function(obj)
+		task.wait()
+		if obj and obj.Parent then
 			obj:Destroy()
 		end
 	end)
 end
-coroutine.wrap(AJHS_fake_script)()
+coroutine.wrap(SXFYA_fake_script)()
