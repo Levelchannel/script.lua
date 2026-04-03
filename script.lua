@@ -1,3 +1,8 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
 local ScreenGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
 local Frame_2 = Instance.new("Frame")
@@ -19,6 +24,8 @@ local TextButton_4 = Instance.new("TextButton")
 local UICorner_8 = Instance.new("UICorner")
 local TextButton_5 = Instance.new("TextButton")
 local UICorner_9 = Instance.new("UICorner")
+
+--Properties:
 
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -149,7 +156,9 @@ TextButton_5.TextWrapped = true
 
 UICorner_9.Parent = TextButton_5
 
-local function YHPD_fake_script()
+-- Scripts:
+
+local function CGDGIZL_fake_script() -- ScreenGui.LocalScript 
 	local script = Instance.new('LocalScript', ScreenGui)
 
 	local frame = script.Parent.Frame
@@ -192,8 +201,8 @@ local function YHPD_fake_script()
 		end
 	end)
 end
-coroutine.wrap(YHPD_fake_script)()
-local function FFNLF_fake_script()
+coroutine.wrap(CGDGIZL_fake_script)()
+local function CCKKJL_fake_script() -- TextButton.LocalScript 
 	local script = Instance.new('LocalScript', TextButton)
 
 	local button = script.Parent
@@ -236,8 +245,15 @@ local function FFNLF_fake_script()
 		end
 	end)
 end
-coroutine.wrap(FFNLF_fake_script)()
-local function NZVNH_fake_script()
+coroutine.wrap(CCKKJL_fake_script)()
+local function QKGNP_fake_script() -- nil.Script 
+	local script = Instance.new('Script', nil)
+
+	print("Hello world!")
+	
+end
+coroutine.wrap(QKGNP_fake_script)()
+local function IBOPZ_fake_script() -- TextButton_2.LocalScript 
 	local script = Instance.new('LocalScript', TextButton_2)
 
 	local button = script.Parent
@@ -319,8 +335,8 @@ local function NZVNH_fake_script()
 	
 	end)
 end
-coroutine.wrap(NZVNH_fake_script)()
-local function BGGBF_fake_script() 
+coroutine.wrap(IBOPZ_fake_script)()
+local function AJHS_fake_script() -- TextButton_3.LocalScript 
 	local script = Instance.new('LocalScript', TextButton_3)
 
 	local button = script.Parent
@@ -335,4 +351,4 @@ local function BGGBF_fake_script()
 		end
 	end)
 end
-coroutine.wrap(BGGBF_fake_script)()
+coroutine.wrap(AJHS_fake_script)()
