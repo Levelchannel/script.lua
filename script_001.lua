@@ -4,6 +4,7 @@ local TextButton = Instance.new("TextButton")
 ScreenGui.Name = ""
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
 
 TextButton.Parent = ScreenGui
 TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -12,13 +13,13 @@ TextButton.BorderSizePixel = 0
 TextButton.Position = UDim2.new(0.789016366, 0, 0.440596908, 0)
 TextButton.Size = UDim2.new(0.0969211683, 0, 0.039477244, 0)
 TextButton.Font = Enum.Font.SourceSans
-TextButton.Text = "Run: On"
+TextButton.Text = "HEAD SCALE: ON"
 TextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
 TextButton.TextScaled = true
 TextButton.TextSize = 14.000
 TextButton.TextWrapped = true
 
-local function YYIVD_fake_script()
+local function HVKFZ_fake_script()
 	local script = Instance.new('LocalScript', ScreenGui)
 
 	local Zombies = workspace:WaitForChild("Zombies")
@@ -101,8 +102,8 @@ local function YYIVD_fake_script()
 		updateButton()
 	end)
 end
-coroutine.wrap(YYIVD_fake_script)()
-local function IZIUAD_fake_script()
+coroutine.wrap(HVKFZ_fake_script)()
+local function SYFUKTM_fake_script() 
 	local script = Instance.new('LocalScript', TextButton)
 
 	local frame = script.Parent
@@ -142,4 +143,4 @@ local function IZIUAD_fake_script()
 		end
 	end)
 end
-coroutine.wrap(IZIUAD_fake_script)()
+coroutine.wrap(SYFUKTM_fake_script)()
